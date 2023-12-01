@@ -59,7 +59,7 @@ def get_answer(inputfile):
 def run_unit_tests():
     testprog = unittest.main(exit=False, verbosity=2)
     error_ct = len(testprog.result.errors)
-    fail_ct = len(testprog.result.errors)
+    fail_ct = len(testprog.result.failures)
     return error_ct < 1 and fail_ct < 1
 
 def main():
