@@ -1,0 +1,1 @@
+Copy-Item -r ./stub $(Get-Date -UFormat %d)
