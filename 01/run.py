@@ -28,6 +28,12 @@ class TestAnswerMethod(unittest.TestCase):
         # validation result for testing goes here
         self.assertEqual(test_answer, 142)
 
+    def testGetFirstLastNumFromStr(self):
+        self.assertEqual(getFirstLastNumFromStr('1abc2'),12)
+        self.assertEqual(getFirstLastNumFromStr('pqr3stu8vwx'),38)
+        self.assertEqual(getFirstLastNumFromStr('a1b2c3d4e5f'),15)
+        self.assertEqual(getFirstLastNumFromStr('treb7uchet'),77)
+
 ################################
 #############  Data functions
 ################################
