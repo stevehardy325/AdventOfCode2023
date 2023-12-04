@@ -25,7 +25,8 @@ class TestAnswerMethod(unittest.TestCase):
     def testExampleAnswer(self):
         test_answer =get_answer(test_fname)
         # validation result for testing goes here
-        self.assertEqual(test_answer, 'test!input!goes!here')
+        self.assertEqual(test_answer, 8)
+
 
 ################################
 #############  Data functions
@@ -41,13 +42,47 @@ def get_dataset_lines(filename):
         
     return lines
 
+def checkNumColorValid(n: int, color: str) -> bool:
+    max_dict = {'red': 12, 'green': 13, 'blue': 14}
+    return n <= max_dict[color]
+
+def checkColorStrValid(s: str) -> bool:
+    # '3 blue'
+    n_str, color = s.split(' ')
+    return checkNumColorValid(int(n_str), color)
+
+def checkSetStrValid(s: str) -> bool:
+    # '3 blue, 4 red'
+    for color_str in s.split(', '):
+        if not checkColorStrValid(color_str):
+            return False
+    return True
+
+def checkGameStrValid(s: str) -> bool:
+    # 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+    for set_str in s.split('; '):
+        if not checkSetStrValid(set_str):
+            return False
+    return True
+
+
+def getLineTotalAdd(s: str) -> bool:
+    # Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+    game_num_str, game_str = s.split(': ')
+    game_num_int = int(game_num_str.split(' ')[-1])
+
+    if checkGameStrValid(game_str):
+        return game_num_int
+    else:
+        return 0
+
 
 def get_answer(inputfile):
     # answer calculation goes here 
     # this is a stub example 
 
     data_list = get_dataset_lines(inputfile)
-    answer = '!'.join(data_list)
+    answer = sum(getLineTotalAdd(l) for l in data_list)
 
     return answer
 
