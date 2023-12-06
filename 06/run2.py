@@ -173,6 +173,7 @@ def main():
     real_answer = real_answer_optimized_queue.get()
 
     print('Test answer: {}{}Real answer: {}'.format(test_answer, os.linesep, real_answer))
+
     end = datetime.now()
     duration = end - start
     print('Took {} to execute all 4 versions'.format(duration))
