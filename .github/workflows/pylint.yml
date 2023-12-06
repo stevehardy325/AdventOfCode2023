@@ -17,4 +17,4 @@ jobs:
         cache: 'pip'
     - name: Analysing the code with pylint
       run: |
-        pylint -d C0114,C0115,C0116,C0209,C0103,W1514,C0200,R --max-line-length=120 $(git ls-files '*.py')
+        python -m pylint -d C0114,C0115,C0116,C0209,C0103,W1514,C0200,R --max-line-length=120 $(git ls-files '*.py')
