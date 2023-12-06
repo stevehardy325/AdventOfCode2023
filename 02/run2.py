@@ -6,7 +6,7 @@ test_fname = 'test.txt'
 input_fname = 'input.txt'
 
 ################################
-#############  Unit tests 
+#############  Unit tests
 ################################
 
 class TestFilesExistMethod(unittest.TestCase):
@@ -40,7 +40,7 @@ def get_dataset_lines(filename):
     lines = []
     with open(filename) as fobj:
         lines = [ln.strip() for ln in fobj.readlines()]
-        
+
     return lines
 
 
@@ -71,21 +71,20 @@ def getMinColorsFromGameStr(s: str) -> bool:
 
 def getLinePowerAdd(s: str) -> bool:
     # Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-    game_num_str, game_str = s.split(': ')
-    game_num_int = int(game_num_str.split(' ')[-1])
+    _, game_str = s.split(': ')
 
     min_colors = getMinColorsFromGameStr(game_str)
     power = 1
     for c in ['red', 'green', 'blue']:
         power *= min_colors[c]
-    
+
     return power
 
 
 
 def get_answer(inputfile):
-    # answer calculation goes here 
-    # this is a stub example 
+    # answer calculation goes here
+    # this is a stub example
 
     data_list = get_dataset_lines(inputfile)
     answer = sum(getLinePowerAdd(l) for l in data_list)

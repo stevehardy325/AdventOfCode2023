@@ -5,7 +5,7 @@ test_fname = 'test.txt'
 input_fname = 'input.txt'
 
 ################################
-#############  Unit tests 
+#############  Unit tests
 ################################
 
 class TestFilesExistMethod(unittest.TestCase):
@@ -39,7 +39,7 @@ def get_dataset_lines(filename):
     lines = []
     with open(filename) as fobj:
         lines = [ln.strip() for ln in fobj.readlines()]
-        
+
     return lines
 
 def checkNumColorValid(n: int, color: str) -> bool:
@@ -78,8 +78,7 @@ def getLineTotalAdd(s: str) -> bool:
 
 
 def get_answer(inputfile):
-    # answer calculation goes here 
-    # this is a stub example 
+    # answer calculation goes here
 
     data_list = get_dataset_lines(inputfile)
     answer = sum(getLineTotalAdd(l) for l in data_list)

@@ -6,7 +6,7 @@ test_fname = 'test2.txt'
 input_fname = 'input.txt'
 
 ################################
-#############  Unit tests 
+#############  Unit tests
 ################################
 
 class TestFilesExistMethod(unittest.TestCase):
@@ -60,13 +60,13 @@ def get_dataset_lines(filename):
     lines = []
     with open(filename) as fobj:
         lines = [ln.strip() for ln in fobj.readlines()]
-        
+
     return lines
 
 def convertTextToNum(s: str) -> int:
     try:
         return int(s)
-    except:
+    except KeyError:
         s = s.lower()
         spelled_dict = {
             'one': 1,
@@ -80,16 +80,13 @@ def convertTextToNum(s: str) -> int:
             'nine':9,
             'zero':0
         }
-        try:
-            return spelled_dict[s.lower()]
-        except:
-            raise Exception('{} is not a number?', s)
+        return spelled_dict[s.lower()]
 
 def getFirstLastNumFromStr(s: str) -> int:
     # originally used the following, but the description didn't specify what to do for overlapping
     # ...it turns out that overlapping was required, so regex modified
     # digits = re.findall('(\d|one|two|one|two|three|four|five|six|seven|eight|nine|zero)', s, )
-    digits = re.findall('(?=(\d|one|two|one|two|three|four|five|six|seven|eight|nine|zero))', s)
+    digits = re.findall(r'(?=(\d|one|two|one|two|three|four|five|six|seven|eight|nine|zero))', s)
     firstNum = convertTextToNum(digits[0])
     lastNum = convertTextToNum(digits[-1])
 
@@ -98,8 +95,7 @@ def getFirstLastNumFromStr(s: str) -> int:
     return numAsInt
 
 def get_answer(inputfile):
-    # answer calculation goes here 
-    # this is a stub example 
+    # answer calculation goes here
 
     data_list = get_dataset_lines(inputfile)
     answer = sum([getFirstLastNumFromStr(s) for s in data_list])

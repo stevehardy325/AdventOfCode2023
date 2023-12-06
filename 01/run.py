@@ -6,7 +6,7 @@ test_fname = 'test.txt'
 input_fname = 'input.txt'
 
 ################################
-#############  Unit tests 
+#############  Unit tests
 ################################
 
 class TestFilesExistMethod(unittest.TestCase):
@@ -45,11 +45,11 @@ def get_dataset_lines(filename):
     lines = []
     with open(filename) as fobj:
         lines = [ln.strip() for ln in fobj.readlines()]
-        
+
     return lines
 
 def getFirstLastNumFromStr(s: str) -> int:
-    digits = re.findall('\d', s)
+    digits = re.findall(r'\d', s)
     firstNum = digits[0]
     lastNum = digits[-1]
     combined = '{}{}'.format(firstNum, lastNum)
@@ -58,8 +58,7 @@ def getFirstLastNumFromStr(s: str) -> int:
 
 
 def get_answer(inputfile):
-    # answer calculation goes here 
-    # this is a stub example 
+    # answer calculation goes here
 
     data_list = get_dataset_lines(inputfile)
     answer = sum([getFirstLastNumFromStr(s) for s in data_list])
