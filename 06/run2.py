@@ -63,7 +63,7 @@ class TestAnswerMethod(unittest.TestCase):
 ################################
 
 def parse_line_numbers(s: str):
-    numbers = re.findall('\d+', s)
+    numbers = re.findall(r'\d+', s)
     digits_joined = ''.join(numbers)
 
     return [int(digits_joined)]
@@ -137,14 +137,43 @@ def run_unit_tests():
     fail_ct = len(testprog.result.failures)
     return error_ct < 1 and fail_ct < 1
 
+def get_answer_naive(inputfile):
+    return get_answer(inputfile, calculation=calc_possible_wins_naive)
+
+def queue_func_wrapper(funcname, fname, res_q):
+    res_q.put(funcname(fname))
 
 def main():
-    test_answer = get_answer(test_fname)
-    real_answer = get_answer(input_fname)
-    test_answer_naive = get_answer(test_fname, calculation=calc_possible_wins_naive)
-    real_answer_naive = get_answer(input_fname, calculation=calc_possible_wins_naive)
+    start = datetime.now()
+    test_answer_naive_queue = Queue()
+    test_answer_optimized_queue = Queue()
+    real_answer_naive_queue = Queue()
+    real_answer_optimized_queue = Queue()
+
+    test_answer_naive_proc = Process(target=queue_func_wrapper, args=(get_answer_naive, test_fname, test_answer_naive_queue))
+    real_answer_naive_proc = Process(target=queue_func_wrapper, args=(get_answer, test_fname, test_answer_optimized_queue))
+    test_answer_optimized_proc = Process(target=queue_func_wrapper, args=(get_answer_naive, input_fname, real_answer_naive_queue))
+    real_answer_optimized_proc = Process(target=queue_func_wrapper, args=(get_answer, input_fname, real_answer_optimized_queue))
+    
+    test_answer_naive_proc.start()
+    real_answer_naive_proc.start()
+    test_answer_optimized_proc.start()
+    real_answer_optimized_proc.start()
+
+    test_answer_naive_proc.join()
+    real_answer_naive_proc.join()
+    test_answer_optimized_proc.join()
+    real_answer_optimized_proc.join()
+
+    test_answer = test_answer_optimized_queue.get()
+    real_answer = real_answer_optimized_queue.get()
+    test_answer_naive = test_answer_naive_queue.get()
+    real_answer_naive = real_answer_naive_queue.get()
 
     print('Test answer: {}{}Real answer: {}'.format(test_answer, os.linesep, real_answer))
+    end = datetime.now()
+    duration = end - start
+    print('Took {} to execute all 4 versions'.format(duration))
 
 
 
