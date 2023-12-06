@@ -6,7 +6,7 @@ test_fname = 'test.txt'
 input_fname = 'input.txt'
 
 ################################
-#############  Unit tests 
+#############  Unit tests
 ################################
 
 class TestFilesExistMethod(unittest.TestCase):
@@ -61,7 +61,7 @@ class TestAnswerMethod(unittest.TestCase):
 ################################
 
 def parse_line_numbers(s: str):
-    numbers = re.findall('\d+', s)
+    numbers = re.findall(r'\d+', s)
     int_numbers = [int(n) for n in numbers]
 
     return int_numbers
@@ -73,23 +73,22 @@ def get_dataset_lines(filename):
     lines = []
     with open(filename) as fobj:
         lines = [ln.strip() for ln in fobj.readlines()]
-        
+
     return lines
 
 def calc_distance(time_held: int, runtime: int):
     if time_held <= 0 or time_held >= runtime:
         return 0
-    else:
-        return time_held*(runtime-time_held)
+    return time_held*(runtime-time_held)
+
 
 def calc_possible_wins(runtime: int, target_dist: int) -> int:
-    possible_distances = [calc_distance(t, runtime) for t in range(1,runtime)]
     return len([calc_distance(t, runtime) for t in range(1,runtime) if calc_distance(t, runtime) > target_dist])
-    
+
 
 def get_answer(inputfile):
-    # answer calculation goes here 
-    # this is a stub example 
+    # answer calculation goes here
+    # this is a stub example
 
     data_list = get_dataset_lines(inputfile)
     times = parse_line_numbers(data_list[0])

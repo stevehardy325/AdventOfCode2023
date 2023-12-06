@@ -9,7 +9,7 @@ test_fname = 'test.txt'
 input_fname = 'input.txt'
 
 ################################
-#############  Unit tests 
+#############  Unit tests
 ################################
 
 class TestFilesExistMethod(unittest.TestCase):
@@ -75,7 +75,7 @@ def get_dataset_lines(filename):
     lines = []
     with open(filename) as fobj:
         lines = [ln.strip() for ln in fobj.readlines()]
-        
+
     return lines
 
 
@@ -88,26 +88,26 @@ def calc_distance(time_held: int, runtime: int):
 
 def calc_possible_wins_naive(runtime: int, target_dist: int) -> int:
     # brute force execution, works but slow
+    distances = [calc_distance(t, runtime) for t in range(1,runtime)
+                 if calc_distance(t, runtime) > target_dist]
 
-    possible_distances = [calc_distance(t, runtime) for t in range(1,runtime)]
-    return len([calc_distance(t, runtime) for t in range(1,runtime) if calc_distance(t, runtime) > target_dist])
+    return len(distances)
 
 
 def calc_possible_wins_optimized(runtime: int, target_dist: int) -> int:
     # we know that the first half of the answers mirror the second, so only calculate half
 
     first_possible_distances = [calc_distance(t, runtime) for t in range(1,math.ceil(runtime/2))]
-    winners = len([d for d in first_possible_distances if d > target_dist]) * 2 
+    winners = len([d for d in first_possible_distances if d > target_dist]) * 2
 
     if runtime % 2 == 0: # even runtimes have a single 'winner' in the middle we have to add
         return winners + 1
-    else:
-        return winners
-    
+    return winners
+
 
 def get_answer(inputfile, calculation=calc_possible_wins_optimized):
-    # answer calculation goes here 
-    # this is a stub example 
+    # answer calculation goes here
+    # this is a stub example
     start = datetime.now()
 
     data_list = get_dataset_lines(inputfile)
@@ -150,11 +150,15 @@ def main():
     real_answer_naive_queue = Queue()
     real_answer_optimized_queue = Queue()
 
-    test_answer_naive_proc = Process(target=queue_func_wrapper, args=(get_answer_naive, test_fname, test_answer_naive_queue))
-    real_answer_naive_proc = Process(target=queue_func_wrapper, args=(get_answer, test_fname, test_answer_optimized_queue))
-    test_answer_optimized_proc = Process(target=queue_func_wrapper, args=(get_answer_naive, input_fname, real_answer_naive_queue))
-    real_answer_optimized_proc = Process(target=queue_func_wrapper, args=(get_answer, input_fname, real_answer_optimized_queue))
-    
+    test_answer_naive_proc = Process(target=queue_func_wrapper,
+                                     args=(get_answer_naive, test_fname, test_answer_naive_queue))
+    real_answer_naive_proc = Process(target=queue_func_wrapper,
+                                     args=(get_answer, test_fname, test_answer_optimized_queue))
+    test_answer_optimized_proc = Process(target=queue_func_wrapper,
+                                         args=(get_answer_naive, input_fname, real_answer_naive_queue))
+    real_answer_optimized_proc = Process(target=queue_func_wrapper,
+                                         args=(get_answer, input_fname, real_answer_optimized_queue))
+
     test_answer_naive_proc.start()
     real_answer_naive_proc.start()
     test_answer_optimized_proc.start()
@@ -167,8 +171,6 @@ def main():
 
     test_answer = test_answer_optimized_queue.get()
     real_answer = real_answer_optimized_queue.get()
-    test_answer_naive = test_answer_naive_queue.get()
-    real_answer_naive = real_answer_naive_queue.get()
 
     print('Test answer: {}{}Real answer: {}'.format(test_answer, os.linesep, real_answer))
     end = datetime.now()
