@@ -2,20 +2,22 @@ name: Pylint
 
 on: [push]
 
+env:
+  PY_VER: "3.12"
+
 jobs:
-  build:
+  run-linter:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.12"]
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Checkout latest
+      uses: actions/checkout@v4
+    - name: "Set up Python ${{ env.PY_VER }}"
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ env.PY_VER }}
         cache: 'pip'
-    - run: pip install -r requirements.txt
+    - name: Install pylint with pip
+      run: pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
         python -m pylint -d C0114,C0115,C0116,C0209,C0103,W1514,C0200,R --max-line-length=120 $(git ls-files '*.py')
