@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python $PYTHON_VER
+    - name: Set up Python "$PYTHON_VER"
       uses: actions/setup-python@v4
       with:
-        python-version: $PYTHON_VER
+        python-version: "$PYTHON_VER"
         cache: 'pip'
     - run: pip install -r requirements.txt
     - name: Analysing the code with pylint
