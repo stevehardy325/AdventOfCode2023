@@ -2,18 +2,18 @@ name: Pylint
 
 on: [push]
 
+env:
+  PYTHON_VER: "3.12"
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.12"]
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python $PYTHON_VER
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: $PYTHON_VER
         cache: 'pip'
     - run: pip install -r requirements.txt
     - name: Analysing the code with pylint
