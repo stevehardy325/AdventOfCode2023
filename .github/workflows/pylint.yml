@@ -3,17 +3,17 @@ name: Pylint
 on: [push]
 
 env:
-  PYTHON_VER: "3.12"
+  PY_VER: "3.12"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python "$PYTHON_VER"
+    - name: Set up Python "$PY_VER"
       uses: actions/setup-python@v4
       with:
-        python-version: "$PYTHON_VER"
+        python-version: "$PY_VER"
         cache: 'pip'
     - run: pip install -r requirements.txt
     - name: Analysing the code with pylint
