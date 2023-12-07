@@ -1,4 +1,4 @@
-"""Advent of Code 2023 Stub file."""
+"""Advent of Code 2023 12/7 part 1"""
 from functools import cmp_to_key
 import unittest
 import os
@@ -161,9 +161,6 @@ def get_answer(inputfile):
     winnings = 0
     for bet, rank in zip(bets_sorted, range(1, len(bets_sorted) + 1)):
         winnings += bet * rank
-
-
-    answer = '!'.join(data_list)
 
     return winnings
 

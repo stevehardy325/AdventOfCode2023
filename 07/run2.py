@@ -1,6 +1,5 @@
 """Advent of Code 2023 Stub file."""
 from functools import cmp_to_key
-import math
 import unittest
 import os
 from collections import defaultdict
@@ -162,7 +161,7 @@ def get_dataset_lines(filename):
 
 def get_answer(inputfile):
     ''' answer calculation goes here '''
-    
+
     data_list = get_dataset_lines(inputfile)
 
     hands = []
@@ -175,13 +174,10 @@ def get_answer(inputfile):
 
     hands_sorted = sorted(hands, key=cmp_to_key(compareHands))
     bets_sorted = [bets[h] for h in hands_sorted]
-    
+
     winnings = 0
     for bet, rank in zip(bets_sorted, range(1, len(bets_sorted) + 1)):
         winnings += bet * rank
-
-
-    answer = '!'.join(data_list)
 
     return winnings
 
