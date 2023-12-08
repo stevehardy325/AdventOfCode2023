@@ -1,6 +1,5 @@
 """Advent of Code 2023 Stub file."""
 from datetime import datetime
-from functools import cache
 import math
 import unittest
 import os
